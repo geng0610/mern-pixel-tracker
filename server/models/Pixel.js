@@ -6,8 +6,8 @@ const PixelSchema = new mongoose.Schema({
     required: true,
   },
   customerId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Customer', // Assuming you have a Customer model
+    type: String,
+    required: true,
   },
   createdAt: {
     type: Date,

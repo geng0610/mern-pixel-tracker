@@ -4,7 +4,8 @@ const Pixel = require('../../models/Pixel');
 
 // Route to create a new pixel
 router.post('/', async (req, res) => {
-  const { name, customerId } = req.body;
+  const { name } = req.body;
+  const customerId = 'defaultCustomerId'; // Replace with actual customer ID logic if needed
 
   try {
     const newPixel = new Pixel({ name, customerId });
@@ -14,6 +15,8 @@ router.post('/', async (req, res) => {
     res.status(500).json({ error: 'Failed to create pixel' });
   }
 });
+
+module.exports = router;
 
 // Route to update an existing pixel
 router.put('/:id', async (req, res) => {
