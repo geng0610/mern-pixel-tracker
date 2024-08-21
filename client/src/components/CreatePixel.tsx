@@ -6,15 +6,12 @@ const CreatePixel: React.FC = () => {
   const [name, setName] = useState<string>('');
 
   const createPixel = async () => {
-    // Use a default customer ID or leave it as null for now
-    const customerId = 'defaultCustomerId'; // Replace with actual logic if needed
-
-    const response = await fetch('http://localhost:5001/api/pixels', {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/pixels`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ name, customerId }),
+      body: JSON.stringify({ name }),
     });
 
     const data = await response.json();
