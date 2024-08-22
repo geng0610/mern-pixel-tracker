@@ -6,10 +6,13 @@ const PixelEvent = require('../../models/PixelEvent');
 router.get('/:pixelId', async (req, res) => {
   const { pixelId } = req.params;
 
+  // Get the real IP address
+  const ip = req.headers['x-forwarded-for'] || req.ip;
+
   try {
     const event = new PixelEvent({
       pixelId,
-      ip: req.ip,
+      ip, // Use the extracted IP address
       userAgent: req.headers['user-agent'],
       eventType: 'page_view', // or another type of event
     });
