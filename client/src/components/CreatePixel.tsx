@@ -15,6 +15,7 @@ const CreatePixel: React.FC = () => {
     });
 
     const data = await response.json();
+    console.log('Response Headers:', response.headers);
     setPixelId(data._id);
   };
 
