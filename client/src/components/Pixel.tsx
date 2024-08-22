@@ -7,7 +7,7 @@ interface PixelProps {
 const Pixel: React.FC<PixelProps> = ({ pixelId }) => {
   useEffect(() => {
     const img = new Image(1, 1);
-    img.src = `http://localhost:5001/api/pixel-events/${pixelId}`;
+    img.src = `${import.meta.env.VITE_API_URL}/api/pixel-events/${pixelId}`;
     document.body.appendChild(img);
   }, [pixelId]);
 
