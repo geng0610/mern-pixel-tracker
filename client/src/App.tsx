@@ -1,5 +1,5 @@
 // import React from 'react';
-import CreatePixel from './components/CreatePixel';
+import PixelManager from './components/PixelManager';
 
 function App() {
   return (
@@ -7,7 +7,7 @@ function App() {
       <header className="App-header">
         <h1>Pixel Tracker</h1>
       </header>
-      <CreatePixel />
+      <PixelManager />
     </div>
   );
 }
