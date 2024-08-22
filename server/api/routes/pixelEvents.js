@@ -8,13 +8,14 @@ router.get('/:pixelId', async (req, res) => {
 
   console.log('Request Headers:', req.headers);
 
-  const ip = req.headers['x-forwarded-for'] || req.ip;
+  // Get the real IP address, take the first one if there are multiple
+  const ip = req.headers['x-forwarded-for']?.split(',')[0].trim() || req.ip;
   console.log('Captured IP:', ip);
 
   try {
     const event = new PixelEvent({
       pixelId,
-      ip,
+      ip, // Store only the original client's IP address
       userAgent: req.headers['user-agent'],
       eventType: 'page_view',
     });
