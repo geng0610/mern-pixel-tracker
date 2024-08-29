@@ -34,6 +34,16 @@ router.put('/:id', async (req, res) => {
   }
 });
 
+// Route to get the last 5 pixels created
+router.get('/last5', async (req, res) => {
+  try {
+    const pixels = await Pixel.find().sort({ createdAt: -1 }).limit(5);
+    res.json(pixels);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch pixels' });
+  }
+});
+
 // Route to get details of a specific pixel
 router.get('/:id', async (req, res) => {
   const { id } = req.params;

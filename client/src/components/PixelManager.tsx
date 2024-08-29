@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Pixel from './Pixel';
+
+interface PixelData {
+  _id: string;
+  name: string;
+  createdAt: string;
+}
 
 const PixelManager: React.FC = () => {
   const [pixelId, setPixelId] = useState<string>('');
   const [createdPixelId, setCreatedPixelId] = useState<string | null>(null);
   const [existingPixelId, setExistingPixelId] = useState<string>('');
+  const [lastPixels, setLastPixels] = useState<PixelData[]>([]);
 
   const createPixel = async () => {
-    const name = `Pixel ${Date.now()}`; // Example pixel name
+    const name = `Pixel ${Date.now()}`;
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/api/pixels`, {
         method: 'POST',
@@ -19,6 +26,7 @@ const PixelManager: React.FC = () => {
       const data = await response.json();
       setCreatedPixelId(data._id);
       setPixelId(data._id);
+      fetchLastPixels(); // Refresh the list of last 5 pixels
     } catch (error) {
       console.error('Error creating pixel:', error);
     }
@@ -27,6 +35,20 @@ const PixelManager: React.FC = () => {
   const handleExistingPixelSubmit = () => {
     setPixelId(existingPixelId);
   };
+
+  const fetchLastPixels = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/pixels/last5`);
+      const data = await response.json();
+      setLastPixels(data);
+    } catch (error) {
+      console.error('Error fetching last pixels:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchLastPixels();
+  }, []);
 
   return (
     <div>
@@ -49,6 +71,20 @@ const PixelManager: React.FC = () => {
           onChange={(e) => setExistingPixelId(e.target.value)}
         />
         <button onClick={handleExistingPixelSubmit}>Get Pixel Info</button>
+      </div>
+
+      {/* Display Last 5 Pixels Created */}
+      <div>
+        <h3>Last 5 Pixels Created</h3>
+        <ul>
+          {lastPixels.map((pixel) => (
+            <li key={pixel._id}>
+              <strong>ID:</strong> {pixel._id} <br />
+              <strong>Name:</strong> {pixel.name} <br />
+              <strong>Created At:</strong> {new Date(pixel.createdAt).toLocaleString()}
+            </li>
+          ))}
+        </ul>
       </div>
 
       {/* Display Pixel Information */}
